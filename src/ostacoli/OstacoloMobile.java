@@ -17,7 +17,12 @@ public class OstacoloMobile implements Ostacolo {
     public static final Color COLORE = new Color(80, 200, 120);
 
     private Rettangolo area;   // non è final: l'ostacolo si muove
-    // scrivete qui gli altri campi che vi servono
+
+    private double velocita;
+    private double limiteAlto;
+    private double limiteBasso;
+    private boolean scende;
+
 
     /**
      * Pretende: area non è null; velocita è maggiore di 0; l'area sta fra i due limiti
@@ -26,6 +31,10 @@ public class OstacoloMobile implements Ostacolo {
      */
     public OstacoloMobile(Rettangolo area, double velocita, double limiteAlto, double limiteBasso) {
         this.area = area;
+        this.velocita = velocita;
+        this.limiteAlto = limiteAlto;
+        this.limiteBasso = limiteBasso;
+        this.scende = true;
         // scrivete qui
     }
 
@@ -35,7 +44,8 @@ public class OstacoloMobile implements Ostacolo {
     /** Non si rompe mai: il colpo non cambia niente (né dove sta, né come si muove). */
     @Override
     public void colpisci(Ostacoli campo) {
-        // scrivete qui
+        
+
     }
 
     @Override
@@ -46,7 +56,7 @@ public class OstacoloMobile implements Ostacolo {
     /** Promette: COLORE. */
     @Override
     public Color getColore() {
-        return null; // scrivete qui
+         return COLORE;
     }
 
     /**
@@ -58,6 +68,31 @@ public class OstacoloMobile implements Ostacolo {
      */
     @Override
     public void avanza() {
-        // scrivete qui
+        
+double nuovaY = area.y();
+
+if (scende == true) {
+    nuovaY = nuovaY + velocita;
+} else {
+    nuovaY = nuovaY - velocita;
+}
+
+double altezza = area.altezza();
+double posizioneMassima = limiteBasso - altezza;
+
+if (nuovaY >= posizioneMassima) {
+    nuovaY = posizioneMassima;
+    scende = false;
+} else {
+    if (nuovaY <= limiteAlto) {
+        nuovaY = limiteAlto;
+        scende = true;
+    }
+}
+
+double x = area.x();
+double larghezza = area.larghezza();
+
+area = new Rettangolo(x, nuovaY, larghezza, altezza); 
     }
 }
