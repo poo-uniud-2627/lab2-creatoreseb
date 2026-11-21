@@ -31,6 +31,13 @@ public class GiocatoreAutomatico implements Giocatore {
 
     @Override
     public Mossa decidiMossa(Palla palla, Racchetta racchetta) {
+        if (racchetta.getBordo().orizzontale()){
+            double dove = palla.getPosizione().x() + erroreDiValutazione(palla, racchetta);
+            if (dove < racchetta.getCentroX() - 3) return Mossa.SU;
+            if (dove > racchetta.getCentroX() + 3) return Mossa.GIU;
+            return Mossa.FERMO;
+        }
+
         double dove = palla.getPosizione().y() + erroreDiValutazione(palla, racchetta);
         if (dove < racchetta.getCentroY() - 3) return Mossa.SU;
         if (dove > racchetta.getCentroY() + 3) return Mossa.GIU;
@@ -39,7 +46,12 @@ public class GiocatoreAutomatico implements Giocatore {
 
     /** Quando la palla comincia a venire verso di lui, sceglie a caso di quanto sbagliare per quella palla. */
     private double erroreDiValutazione(Palla palla, Racchetta racchetta) {
-        boolean arriva = (racchetta.getX() - palla.getPosizione().x()) * palla.getVelocitaX() > 0;
+        boolean arriva;
+        if (racchetta.getBordo().orizzontale()) {
+            arriva = (racchetta.getY() - palla.getPosizione().y()) * palla.getVelocitaY() > 0;
+        } else {
+            arriva = (racchetta.getX() - palla.getPosizione().x()) * palla.getVelocitaX() > 0;
+        }
         if (arriva && !arrivava) {
             errore = (caso.nextDouble() * 2 - 1) * erroreMassimo;
         }

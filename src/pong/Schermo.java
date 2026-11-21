@@ -94,8 +94,8 @@ class Schermo extends JPanel {
         }
 
         g2.setColor(Color.WHITE);
-        disegna(g2, partita.getRacchettaSinistra());
-        disegna(g2, partita.getRacchettaDestra());
+        disegna(g2, partita.getRacchettaUmana());
+        disegna(g2, partita.getRacchettaAutomatica());
         Palla palla = partita.getPalla();
         int r = palla.getRaggio();
         Posizione p = palla.getPosizione();

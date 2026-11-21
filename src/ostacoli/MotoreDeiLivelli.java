@@ -28,6 +28,17 @@ public class MotoreDeiLivelli {
     static final double ERRORE_AL_LIVELLO_1 = 90;
     static final double ERRORE_IN_MENO_A_OGNI_LIVELLO = 12;
 
+    /** inseriamo le posizioni dei bordi in base alla tabella (seguendo i livelli) */
+    /** il bordo umano */
+    private static final Bordo[] BORDO_UMANO = {
+        Bordo.SINISTRA, Bordo.BASSO, Bordo.SINISTRA, Bordo.BASSO, Bordo.ALTO
+    };
+
+    /** bordo automatico */
+    private static final Bordo[] BORDO_AUTOMATICO = {
+        Bordo.DESTRA, Bordo.ALTO, Bordo.ALTO, Bordo.DESTRA, Bordo.SINISTRA
+    };
+
     /**
      * Il livello numero, per un campo largo larghezzaCampo e alto altezzaCampo pixel
      * (gli ostacoli sono pensati per il campo del gioco, 800 x 500).
@@ -40,7 +51,13 @@ public class MotoreDeiLivelli {
         }
         double velocita = VELOCITA_AL_LIVELLO_1 + VELOCITA_IN_PIU_A_OGNI_LIVELLO * (numero - 1);
         double errore = Math.max(0, ERRORE_AL_LIVELLO_1 - ERRORE_IN_MENO_A_OGNI_LIVELLO * (numero - 1));
-        return new Livello(numero, velocita, errore, new Ostacoli(ostacoli(numero, larghezzaCampo / 2.0, altezzaCampo / 2.0)));
+        return new Livello(
+            numero,
+            velocita, 
+            errore, 
+            new Ostacoli(ostacoli(numero, larghezzaCampo / 2.0, altezzaCampo / 2.0)), 
+            BORDO_UMANO[numero - 1], // perchè la pos. nell'array parte da 0, i livelli partono da 1
+            BORDO_AUTOMATICO[numero - 1]);
     }
 
     /**

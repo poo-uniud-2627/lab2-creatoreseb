@@ -19,6 +19,6 @@ public enum Bordo {
         if (this == SINISTRA) return DESTRA;
         if (this == DESTRA) return SINISTRA;
         if (this == ALTO) return BASSO;
-        return ALTO 
+        return ALTO;
     }
 }
